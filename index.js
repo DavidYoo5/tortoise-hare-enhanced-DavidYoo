@@ -109,7 +109,78 @@ function reset() {
     }
   }
 }
+function hardMode() {
+  HARD_BUTTON.disabled = true;
 
+  moveTortoise2();
+  moveHare2();
+
+  function moveHare2() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 3) {
+      //1 to 3 fast plod
+      harePosition += 4;
+    } else if (roll >= 4 && roll <= 6) {
+      //4 to 6 slip
+      harePosition -= 7;
+    } else {
+      //7 to 10 nothing happens
+      harePosition += 0;
+    }
+  }
+
+  function moveTortoise2() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 5) {
+      //1 to 5 fast plod
+      tortoisePosition += 4;
+    } else if (roll >= 6 && roll <= 7) {
+      //6 to 7 slip
+      tortoisePosition -= 5;
+    } else {
+      //8 to 10 slow plod (plod means moving slowly forward)
+      tortoisePosition += 1;
+    }
+  }
+}
+function easyMode() {
+  EASY_BUTTON.disabled = true;
+
+  moveTortoise3();
+  moveHare3();
+
+  function moveHare3() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 3) {
+      //1 to 3 fast plod
+      harePosition += 7;
+    } else if (roll >= 4 && roll <= 6) {
+      //4 to 6 slip
+      harePosition -= 0;
+    } else {
+      //7 to 10 nothing happens
+      harePosition += 10;
+    }
+  }
+
+  function moveTortoise3() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 5) {
+      //1 to 5 fast plod
+      tortoisePosition += 4;
+    } else if (roll >= 6 && roll <= 7) {
+      //6 to 7 slip
+      tortoisePosition -= 5;
+    } else {
+      //8 to 10 slow plod (plod means moving slowly forward)
+      tortoisePosition += 1;
+    }
+  }
+}
 function fixPosition() {
   tortoisePosition = Math.min(TRACK_LENGTH, Math.max(1, tortoisePosition)); //the Math.min and Math.max functions are used to limit the position to the range of 1 to 70. Math.max returns the maximum value between the two arguments, and Math.min returns the minimum value between the two arguments
   harePosition = Math.min(TRACK_LENGTH, Math.max(1, harePosition));
