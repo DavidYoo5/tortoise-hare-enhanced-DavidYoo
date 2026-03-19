@@ -14,12 +14,23 @@ const MESSAGE = document.getElementById("message");
 const TRACK = document.getElementById("track");
 const LOG = document.getElementById("log");
 
+const HARD_BUTTON = document.getElementById("hardBtn");
+const EASY_BUTTON = document.getElementById("easyBtn");
+
 let tortoisePosition = 1;
 let harePosition = 1;
 let raceIntervalId = null;
 let stepCount = 0;
+let hardModevar = false;
+let easyModevar = false;
 
 START_BUTTON.addEventListener("click", startRace); //startRace is a callback function for the function startRace
+HARD_BUTTON.addEventListener("click", () => {
+  hardModevar = true;
+});
+EASY_BUTTON.addEventListener("click", () => {
+  easyModevar = true;
+});
 
 //Backend Functions
 function startRace() {
@@ -39,10 +50,14 @@ function raceStep() {
   stepCount++; //same as stepCount += 1
 
   //move tortoise randomly
-  moveTortoise();
-
   //move hare randomly
-  moveHare();
+  if (hardModevar === true) {
+    hardMode();
+  } else if (easyModevar === true) {
+    easyMode();
+  } else {
+    reset();
+  }
 
   //fix position if they go below the range (0)
   fixPosition();
@@ -59,38 +74,113 @@ function raceStep() {
   renderTrack();
 }
 
-function moveTortoise() {
-  let roll = Math.floor(Math.random() * 10) + 1;
+function reset() {
+  moveTortoise();
+  moveHare();
+  function moveTortoise() {
+    let roll = Math.floor(Math.random() * 10) + 1;
 
-  if (roll >= 1 && roll <= 5) {
-    //1 to 5 fast plod
-    tortoisePosition += 4;
-  } else if (roll >= 6 && roll <= 7) {
-    //6 to 7 slip
-    tortoisePosition -= 5;
-  } else {
-    //8 to 10 slow plod (plod means moving slowly forward)
-    tortoisePosition += 1;
+    if (roll >= 1 && roll <= 5) {
+      //1 to 5 fast plod
+      tortoisePosition += 4;
+    } else if (roll >= 6 && roll <= 7) {
+      //6 to 7 slip
+      tortoisePosition -= 5;
+    } else {
+      //8 to 10 slow plod (plod means moving slowly forward)
+      tortoisePosition += 1;
+    }
+  }
+
+  // create the moveHare function here
+
+  function moveHare() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 3) {
+      //1 to 3 fast plod
+      harePosition += 6;
+    } else if (roll >= 4 && roll <= 6) {
+      //4 to 6 slip
+      harePosition -= 9;
+    } else {
+      //7 to 10 nothing happens
+      harePosition += 4;
+    }
   }
 }
+function hardMode() {
+  HARD_BUTTON.disabled = true;
 
-// create the moveHare function here
+  moveTortoise2();
+  moveHare2();
 
-function moveHare() {
-  let roll = Math.floor(Math.random() * 10) + 1;
+  function moveHare2() {
+    let roll = Math.floor(Math.random() * 10) + 1;
 
-  if (roll >= 1 && roll <= 3) {
-    //1 to 3 fast plod
-    harePosition += 7;
-  } else if (roll >= 4 && roll <= 6) {
-    //4 to 6 slip
-    harePosition -= 2;
-  } else {
-    //7 to 10 nothing happens
-    harePosition += 0;
+    if (roll >= 1 && roll <= 3) {
+      //1 to 3 fast plod
+      harePosition += 4;
+    } else if (roll >= 4 && roll <= 6) {
+      //4 to 6 slip
+      harePosition -= 7;
+    } else {
+      //7 to 10 nothing happens
+      harePosition += 0;
+    }
+  }
+
+  function moveTortoise2() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 5) {
+      //1 to 5 fast plod
+      tortoisePosition += 4;
+    } else if (roll >= 6 && roll <= 7) {
+      //6 to 7 slip
+      tortoisePosition -= 5;
+    } else {
+      //8 to 10 slow plod (plod means moving slowly forward)
+      tortoisePosition += 1;
+    }
   }
 }
+function easyMode() {
+  EASY_BUTTON.disabled = true;
 
+  moveTortoise3();
+  moveHare3();
+
+  function moveHare3() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 3) {
+      //1 to 3 fast plod
+      harePosition += 7;
+    } else if (roll >= 4 && roll <= 6) {
+      //4 to 6 slip
+      harePosition -= 0;
+    } else {
+      //7 to 10 nothing happens
+      harePosition += 10;
+    }
+  }
+
+  function moveTortoise3() {
+    let roll = Math.floor(Math.random() * 10) + 1;
+
+    if (roll >= 1 && roll <= 5) {
+      //1 to 5 fast plod
+      tortoisePosition += 4;
+    } else if (roll >= 6 && roll <= 7) {
+      //6 to 7 slip
+      tortoisePosition -= 5;
+    } else {
+      //8 to 10 slow plod (plod means moving slowly forward)
+      tortoisePosition += 1;
+    }
+  }
+}
 function fixPosition() {
   tortoisePosition = Math.min(TRACK_LENGTH, Math.max(1, tortoisePosition)); //the Math.min and Math.max functions are used to limit the position to the range of 1 to 70. Math.max returns the maximum value between the two arguments, and Math.min returns the minimum value between the two arguments
   harePosition = Math.min(TRACK_LENGTH, Math.max(1, harePosition));
